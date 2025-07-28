@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Load the secret stream key
-STREAM_KEY=$STREAM_KEY
+# Install ffmpeg
+apt update && apt install -y ffmpeg
 
-# Start FFmpeg stream to YouTube (adjust input as needed)
-ffmpeg \
- -re -stream_loop -1 -i "video.mp4" \
- -vcodec libx264 -preset veryfast -b:v 6000k -maxrate 6000k -bufsize 12000k \
- -acodec aac -b:a 160k -ar 44100 -ac 2 \
- -pix_fmt yuv420p -g 120 -r 60 \
- -f flv "rtmp://a.rtmp.youtube.com/live2/$STREAM_KEY"
+# Optional: check ffmpeg installed
+ffmpeg -version
+
+# Use environment variable for stream key
+ffmpeg -stream_loop -1 -re -i video.mp4 \
+-c:v libx264 -preset veryfast -maxrate 1500k -bufsize 3000k \
+-pix_fmt yuv420p -g 60 -r 30 \
+-f flv "rtmp://a.rtmp.youtube.com/live2/4jkj-h7a7-61w5-twzs-bytk"
